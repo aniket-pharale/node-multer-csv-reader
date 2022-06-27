@@ -6,15 +6,7 @@ const csv =  require('csv-parser')
 const { Readable } = require('stream');
 
 
-const fileStorageEngine = multer.memoryStorage({
-    destination: (req, file, cb) => {
-      cb(null, './upload');
-    }
-    ,
-    filename: (req, file, cb) => {
-      cb(null, file.originalname);
-    },
-  });
+const fileStorageEngine = multer.memoryStorage({});
 
 const upload = multer({storage:fileStorageEngine});
 
@@ -32,11 +24,13 @@ app.post('/upload',upload.single('file'), async(req,res)=>{
     })
     
     .on('end', () =>{
-        console.log("customer",customer)
+        // console.log("customer",customer)
         customer.forEach(value =>{
             // check validation if particular column is empty
-            if(value.ID){
-                 console.log(value.ID)
+            if(value.ID==''){
+              console.log(value.ID)
+
+              console.error('SOme fields are empty')
             }
         });
     })
